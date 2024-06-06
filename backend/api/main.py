@@ -1,6 +1,13 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from api.modules.users.routers.user_router import router as user_router
+
 from fastapi import FastAPI, status
 
 app = FastAPI(title='Gerenciador de Vendas')
+
+app.include_router(user_router, prefix='/users')
 
 @app.get('/',
          status_code=status.HTTP_200_OK,

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  book_trade:
+    image: postgres:13
+    container_name: ${DATABASE_CONTAINER_NAME}
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DB}
+    ports:
+      - "${DATABASE_PORT}:5432"
+    volumes:
+      - book_trade_data:/var/lib/postgresql/data
+
+volumes:
+  book_trade_data:

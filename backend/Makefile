@@ -1,2 +1,2 @@
 run:
-	python api/main.py
+	PYTHONPATH=$(pwd) python api/main.py
