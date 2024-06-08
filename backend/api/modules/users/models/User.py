@@ -25,7 +25,7 @@ class User(Base):
     sex: Mapped[str] = mapped_column(String(1), nullable=False)
     date_birthday: Mapped[date] = mapped_column(Date(), nullable=False)
     date_created: Mapped[datetime] = mapped_column(DateTime(timezone=True),
-                                                   nullable=False, default=func.now)
+                                                   nullable=False, default=func.now()) # pylint: disable=not-callable
     status: Mapped[int] = mapped_column(Integer(), nullable=False, default=1)
     profile_photo: Mapped[bytes] = mapped_column(LargeBinary(), nullable=True)
     date_login: Mapped[datetime] = mapped_column(Date(), nullable=True)

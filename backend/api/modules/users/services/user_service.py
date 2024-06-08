@@ -4,7 +4,6 @@ database operations. It includes functionality to create new users based on data
 by pydantic models, handle database transactions, and apply business logic such as setting
 the user's creation date and status.
 """
-from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.modules.users.models.User import User
@@ -39,7 +38,6 @@ class UserService:
             rolls back the session, and logs the error.
         """
         user_data = data_user.model_dump()
-        user_data['date_created'] = datetime.now(timezone.utc)
         new_user = None
 
         new_user = User(**user_data)
