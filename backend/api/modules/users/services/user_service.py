@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.modules.users.models.User import User
 from api.modules.users.schemas.user_schema import UserCreateRequest, UserResponse
+from api.shared.handlers.database_handler import handle_database_exceptions
 
 class UserService:
     """
@@ -20,6 +21,7 @@ class UserService:
     def __init__(self, session: AsyncSession):
         self.session = session
 
+    @handle_database_exceptions
     async def create_new_user(self, data_user: UserCreateRequest) -> UserResponse:
         """
         Creates a new user in the database from the provided user data.
@@ -40,15 +42,9 @@ class UserService:
         user_data['date_created'] = datetime.now(timezone.utc)
         new_user = None
 
-        try:
-            new_user = User(**user_data)
-            self.session.add(new_user)
-            await self.session.commit()
-            await self.session.refresh(new_user)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            await self.session.rollback()
-            return None
+        new_user = User(**user_data)
+        self.session.add(new_user)
+        await self.session.commit()
+        await self.session.refresh(new_user)
 
         return new_user
-    
