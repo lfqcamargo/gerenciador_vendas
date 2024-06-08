@@ -19,13 +19,9 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     sex: Mapped[str] = mapped_column(String(1), nullable=False)
-    data_birthday: Mapped[date] = mapped_column(Date(), nullable=False)
+    date_birthday: Mapped[date] = mapped_column(Date(), nullable=False)
     date_created: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=func.now())
     status: Mapped[int] = mapped_column(Integer(), nullable=False, default=1)
     profile_photo: Mapped[bytes] = mapped_column(LargeBinary(), nullable=True)
     date_login: Mapped[datetime] = mapped_column(Date(), nullable=True)
     
-class Test(Base):
-    __tablename__ = 'test'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
