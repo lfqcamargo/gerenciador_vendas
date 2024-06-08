@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  book_trade:
+  production_db:
     image: postgres:13
     container_name: ${DATABASE_CONTAINER_NAME}
     environment:
@@ -11,7 +11,20 @@ services:
     ports:
       - "${DATABASE_PORT}:5432"
     volumes:
-      - book_trade_data:/var/lib/postgresql/data
+      - "${DATABASE_VOLUME}:/var/lib/postgresql/data"
+
+  test_db:
+    image: postgres:13
+    container_name: ${DATABASE_CONTAINER_NAME_TEST}
+    environment:
+      POSTGRES_USER: ${DATABASE_USER_TEST}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD_TEST}
+      POSTGRES_DB: ${DATABASE_DB_TEST}
+    ports:
+      - "${DATABASE_PORT_TEST}:5432"
+    volumes:
+      - "${DATABASE_VOLUME_TEST}:/var/lib/postgresql/data"
 
 volumes:
-  book_trade_data:
+  gerenciador_vendas:
+  gerenciador_vendas_test:

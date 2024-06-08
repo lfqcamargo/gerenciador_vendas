@@ -6,8 +6,11 @@ that sensitive information is not hard-coded in the source code.
 The `Settings` class automatically loads these configurations from a .env file or the environment,
 providing a single object that can be used throughout the application to access configuration data.
 """
+import os
 from pydantic_settings import BaseSettings
-from pydantic import Field
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Settings(BaseSettings):
     """
@@ -15,19 +18,29 @@ class Settings(BaseSettings):
     the environment. This class defines all necessary database configuration parameters
     and provides them through class attributes.
     """
-    DATABASE_URL: str = Field(..., env='DATABASE_URL')
-    DATABASE_USER: str = Field(..., env='DATABASE_USER')
-    DATABASE_PASSWORD: str = Field(..., env='DATABASE_PASSWORD')
-    DATABASE_DB: str = Field(..., env='DATABASE_DB')
-    DATABASE_PORT: str = Field(..., env='DATABASE_PORT')
-    DATABASE_VOLUME: str = Field(..., env='DATABASE_VOLUME')
-    DATABASE_CONTAINER_NAME: str = Field(..., env='DATABASE_CONTAINER_NAME')
+    DATABASE_URL: str
+    DATABASE_USER: str
+    DATABASE_PASSWORD: str
+    DATABASE_DB: str
+    DATABASE_PORT: str
+    DATABASE_VOLUME: str
+    DATABASE_CONTAINER_NAME: str
 
-
-    class Config:
+    class ConfigDict:
         """
         Configuration class that specifies the source of environment variables.
         """
         env_file = '.env'
+
+    def __init__(self, **values):
+        super().__init__(**values)
+        if os.getenv('TEST_ENV'):
+            self.DATABASE_URL = os.getenv('DATABASE_URL_TEST') # pylint: disable=invalid-name
+            self.DATABASE_USER = os.getenv('DATABASE_USER_TEST') # pylint: disable=invalid-name
+            self.DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD_TEST') # pylint: disable=invalid-name
+            self.DATABASE_DB = os.getenv('DATABASE_DB_TEST') # pylint: disable=invalid-name
+            self.DATABASE_PORT = os.getenv('DATABASE_PORT_TEST') # pylint: disable=invalid-name
+            self.DATABASE_VOLUME = os.getenv('DATABASE_VOLUME_TEST') # pylint: disable=invalid-name
+            self.DATABASE_CONTAINER_NAME = os.getenv('DATABASE_CONTAINER_NAME_TEST') # pylint: disable=invalid-name
 
 settings = Settings()
