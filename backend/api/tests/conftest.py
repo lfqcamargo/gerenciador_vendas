@@ -16,6 +16,7 @@ from api.shared.configs.settings import settings
 
 DATABASE_URL = settings.DATABASE_URL
 
+
 @pytest.fixture(scope='function', autouse=True)
 async def setup_database():
     """ Sets up the database for each test function by creating and dropping tables. """

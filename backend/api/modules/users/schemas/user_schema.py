@@ -5,9 +5,10 @@ for validating the data sent to the API endpoints for creating and responding wi
 import uuid
 from datetime import datetime, date
 from typing import Annotated, Optional
-from pydantic import Field, EmailStr
+from pydantic import Field, EmailStr, field_validator
 
 from api.shared.configs.base_schema import BaseSchema
+from api.shared.validators.cpf_cnpj_validator import validate_cpf_cnpj
 
 class UserCreateRequest(BaseSchema):
     """
@@ -40,6 +41,22 @@ class UserCreateRequest(BaseSchema):
     date_birthday: Annotated[
         date,
         Field(..., description='The user date of birth.')]
+
+    @field_validator('cpf_cnpj')
+    def cpf_cnpj_validator(cls, value: str) -> str: # pylint: disable=E0213
+        """
+        Validates whether the input is a valid CPF or CNPJ.
+        
+        Args:
+            value (str): The CPF or CNPJ value to validate.
+        
+        Returns:
+            str: The validated CPF or CNPJ value.
+        
+        Raises:
+            CpfCnpjException: If the CPF or CNPJ is invalid.
+        """
+        return validate_cpf_cnpj(value)
 
 class UserResponse(BaseSchema):
     """

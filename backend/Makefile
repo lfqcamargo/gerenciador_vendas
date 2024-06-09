@@ -1,7 +1,7 @@
 run:
 	python main.py
 
-pylint_color:
+pylint:
 	pylint --output-format=colorized api
 
 test:
