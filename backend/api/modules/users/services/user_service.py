@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.modules.users.models.User import User
 from api.modules.users.schemas.user_schema import UserCreateRequest, UserResponse
 from api.shared.handlers.database_handler import handle_database_exceptions
+from api.utils.crypt_password import has_password
 
 class UserService:
     """
@@ -38,7 +39,8 @@ class UserService:
             rolls back the session, and logs the error.
         """
         user_data = data_user.model_dump()
-        new_user = None
+        hashed_password = has_password(user_data['password'])
+        user_data['password'] = hashed_password
 
         new_user = User(**user_data)
         self.session.add(new_user)
