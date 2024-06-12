@@ -9,6 +9,7 @@ from pydantic import Field, EmailStr, field_validator
 
 from api.shared.configs.base_schema import BaseSchema
 from api.shared.validators.cpf_cnpj_validator import validate_cpf_cnpj
+from api.shared.validators.phone_validator import validate_and_format_number
 
 class UserCreateRequest(BaseSchema):
     """
@@ -57,6 +58,22 @@ class UserCreateRequest(BaseSchema):
             CpfCnpjException: If the CPF or CNPJ is invalid.
         """
         return validate_cpf_cnpj(value)
+
+    @field_validator('whatsapp')
+    def whatsapp_validator(cls, value: str) -> str: # pylint: disable=E0213
+        """
+        Validates whether the input is a valid phone number.
+        
+        Args:
+            value (str): The phone number to validate.
+        
+        Returns:
+            str: The validated phone number.
+        
+        Raises:
+            PhoneNumberException: If the phone number is invalid.
+        """
+        return validate_and_format_number(value)
 
 class UserResponse(BaseSchema):
     """
