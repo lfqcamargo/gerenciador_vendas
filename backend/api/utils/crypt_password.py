@@ -1,8 +1,11 @@
 """
-This module provides functionality to hash passwords using bcrypt.
+This module uses bcrypt to provide secure hashing functionalities for passwords. 
+It includes functions to hash passwords and verify hashed passwords against plaintext passwords.
 
-Functions:
-hash_password(password: str) -> str: Hashes a password and returns the hashed value.
+Available Functions:
+- hash_password(password: str) -> str: Hashes a plaintext password and returns the hashed value.
+- verify_password(password: str, hashed_password: str) -> bool: 
+Checks if a plaintext password matches a hashed password.
 """
 import bcrypt
 

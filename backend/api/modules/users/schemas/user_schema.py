@@ -10,6 +10,10 @@ from pydantic import Field, EmailStr, field_validator
 from api.shared.configs.base_schema import BaseSchema
 from api.shared.validators.cpf_cnpj_validator import validate_cpf_cnpj
 from api.shared.validators.phone_validator import validate_and_format_number
+from api.shared.validators.name_validator import validate_format_name
+from api.shared.validators.password_validator import validate_password
+from api.shared.validators.sex_validator import validate_sex
+from api.shared.validators.birthdate_validator import validate_birthdate
 
 class UserCreateRequest(BaseSchema):
     """
@@ -74,6 +78,73 @@ class UserCreateRequest(BaseSchema):
             PhoneNumberException: If the phone number is invalid.
         """
         return validate_and_format_number(value)
+
+    @field_validator('name')
+    def name_validator(cls, value: str) -> str: # pylint: disable=E0213
+        """
+        Validates whether the input is a valid name.
+
+        Args:
+            value (str): The name to validate.
+
+        Returns:
+            str: The validated and formatted name.
+
+        Raises:
+            NameValidationException: If the name is invalid.
+        """
+        return validate_format_name(value)
+
+    @field_validator('password')
+    def password_validator(cls, value: str) -> str: # pylint: disable=E0213
+        """
+        Validates whether the input is a valid password.
+
+        Args:
+            value (str): The password to validate.
+
+        Returns:
+            str: The validated password if it meets the criteria.
+
+        Raises:
+            PasswordValidationException: If the password does not meet security standards.
+        """
+        return validate_password(value)
+
+    @field_validator('sex')
+    def sex_validator(cls, value: str) -> str: # pylint: disable=E0213
+        """
+        Validates whether the input is a valid gender code.
+
+        Args:
+            value (str): The gender code to validate. Expected values are 'M' for male, 
+            'F' for female, or 'O' for other.
+
+        Returns:
+            str: The validated gender code if it meets the criteria.
+
+        Raises:
+            GenderValidationException: If the gender code does not meet the required standards.
+        """
+        return validate_sex(value)
+
+    @field_validator('date_birthday')
+    def birthday_validator(cls, value: date) -> date: # pylint: disable=E0213
+        """
+        Validates whether the input is a 
+        valid birth date and checks if the user is at least 14 years old.
+
+        Args:
+            value (date): The birth date to validate.
+
+        Returns:
+            date: The validated birth date if it meets the criteria.
+
+        Raises:
+            BirthdateValidationException: If the user is 
+            not at least 14 years old based on the given birth date.
+        """
+        return validate_birthdate(value)
 
 class UserResponse(BaseSchema):
     """
