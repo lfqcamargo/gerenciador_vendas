@@ -26,5 +26,5 @@ def validate_birthdate(date_birthday: date) -> date:
     age = today.year - date_birthday.year - (
         (today.month, today.day) < (date_birthday.month, date_birthday.day))
     if age < 14:
-        raise BirthdateValidationException("User must be at least 14 years old.")
+        raise BirthdateValidationException(f"Key (date_birthday)=({date_birthday}) User must be at least 14 years old.")
     return date_birthday

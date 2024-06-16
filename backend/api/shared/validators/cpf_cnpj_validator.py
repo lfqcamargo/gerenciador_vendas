@@ -21,11 +21,11 @@ def validate_cpf_cnpj(value: str) -> str:
     """
     if len(value) == 11:
         if not cpf.validate(value):
-            raise CpfCnpjException(detail='Invalid CPF')
+            raise CpfCnpjException(detail=f'Key (cpf_cnpj)=({value}) is Invalid')
         return value
     if len(value) == 14:
         if not cnpj.validate(value):
-            raise CpfCnpjException(detail='Invalid CNPJ')
+            raise CpfCnpjException(detail=f'Key (cpf_cnpj)=({value}) is Invalid')
         return value
 
     raise CpfCnpjException(detail='Invalid CPF/CNPJ length')

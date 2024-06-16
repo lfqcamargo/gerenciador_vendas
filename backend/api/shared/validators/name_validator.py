@@ -26,6 +26,6 @@ def validate_format_name(name: str) -> str:
     """
     # Regex to check the validity of the name
     if not re.match(r"^(?!.*[!@#$%^&*0-9])(?!.*[_]{2,})(?!.*\s{2,})[A-Za-zéàëç \-']{2,50}$", name):
-        raise NameValidationException("The name is not valid. It must start with a capital "
+        raise NameValidationException(f"Key (name)=({name}) The name is not valid. It must start with a capital "
                                       "letter and only contain alphabetic characters and spaces.")
     return name

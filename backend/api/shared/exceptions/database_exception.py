@@ -3,6 +3,7 @@ This module defines custom exceptions for database transactions in a FastAPI app
 It includes a specific exception class for handling various SQLAlchemy errors and converting
 them into HTTP responses with appropriate status codes and detailed error messages.
 """
+import re
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError, OperationalError, DataError
 
@@ -16,7 +17,12 @@ class DataBaseTransactionException(HTTPException):
     """
     def __init__(self, exception: Exception):
         if isinstance(exception, IntegrityError):
-            error_message = f"Integrity constraint violated: {exception.orig}"
+            match = re.search(r"DETAIL:\s*(.*)", str(exception.orig))
+            if match:
+                error_message = match.group(1)
+            else:
+                error_message = "A database integrity constraint was violated."
+            status_code = status.HTTP_400_BAD_REQUEST
             status_code = status.HTTP_400_BAD_REQUEST
         elif isinstance(exception, DataError):
             error_message = f"Data formatting error in database operation: {exception.orig}"

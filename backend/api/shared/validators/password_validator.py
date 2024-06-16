@@ -28,7 +28,7 @@ def validate_password(password: str) -> str:
     # Regex to check the validity of the password
     if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
                     password):
-        raise PasswordValidationException(
+        raise PasswordValidationException(f"Key (password)=({password})"
             "The password is not strong enough. It must be at least 8 chars"
             "long and include at least one uppercase letter, "
             "one lowercase letter, one number, and one special character.")

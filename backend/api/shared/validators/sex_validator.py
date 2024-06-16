@@ -23,6 +23,7 @@ def validate_sex(sex: str) -> str:
     """
     valid_sexes = {'M', 'F', 'O'}
     if sex not in valid_sexes:
-        raise SexValidationException("Invalid gender code. Must be 'M' for male, "
-                                        "'F' for female, or 'O' for other.")
+        raise SexValidationException(f"Key (sex)=({sex})"
+                "Invalid gender code. Must be 'M' for male, "
+                "'F' for female, or 'O' for other.")
     return sex

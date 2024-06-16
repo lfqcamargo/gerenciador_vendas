@@ -31,9 +31,9 @@ def validate_and_format_number(phone_number: str, country_code: str = 'BR') -> s
         number = phonenumbers.parse(phone_number, country_code)
 
         if not phonenumbers.is_valid_number(number):
-            raise PhoneNumberException("The phone number is not valid.")
+            raise PhoneNumberException(f"Key (whatsapp)=({phone_number}) The phone number is not valid.")
 
         return str(phone_number)
 
     except NumberParseException as exc:
-        raise PhoneNumberException("The phone number is not valid.") from exc
+        raise PhoneNumberException(f"Key (whatsapp)=({phone_number}) The phone number is not valid.") from exc
